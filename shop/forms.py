@@ -16,13 +16,13 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('Oh no! This username has already been taken. Please choose a different one.')
+            raise ValidationError('This username has already been taken. Please choose a different one.')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
-        
+
         if user:
-            raise ValidationError('Oh no! This email is already registered. Please choose a different one.')
+            raise ValidationError('This email is already registered. Please choose a different one.')
 
 
 class LoginForm(FlaskForm):
@@ -32,19 +32,14 @@ class LoginForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
-    choices = [('Rose', 'Rose'), ('Lily', 'Lily'), ('Daisy', 'Daisy'), ('Sunflower', 'Sunflower'), ('Carnation', 'Carnation'), ('Freesia', 'Freesia'), ('Jasmine', 'Jasmine'), ('Peony', 'Peony'), ('Amaryllis', 'Amaryllis')]
-    select = SelectField('Search flower:', choices=choices)
+    choices = [('Pen', 'Pen'), ('Pencil', 'Pencil'), ('Rubber', 'Rubber'), ('USB', 'USB'), ('Rubber', 'Rubber'), ('Calculator', 'Calculator')]
+    select = SelectField('Search item:', choices=choices)
     search = StringField('')
 
 class CheckoutForm(FlaskForm):
-    forename = StringField('Forename', validators=[DataRequired('Please enter your forename'), Length(min=3, max=15)])
-    surname = StringField('Surname', validators=[DataRequired('Please enter your surname'), Length(min=3, max=15)])
-    address = StringField('Address',
-                        validators=[DataRequired('Please enter your billing address')])
-    card_no = PasswordField('card_no', validators=[DataRequired('Please enter your 16-digit card number'), Length(min=16, max=16)])
-    cvc = PasswordField('cvc', validators=[DataRequired('Please enter your 3-digit CVC'), Length(min=3, max=3)])
-    submit = SubmitField('Checkout')
-
-
-
-
+    FisrtName = StringField('First Name', validators=[DataRequired('Please enter your First Name'), Length(min=3, max=15)])
+    LastName = StringField('Last Name', validators=[DataRequired('Please enter your Last Name'), Length(min=3, max=15)])
+    Adress = StringField('Address', validators=[DataRequired('Please enter your Address')])
+    Card_No = PasswordField('Card_No', validators=[DataRequired('Please enter your 16-digit card number'), Length(min=16, max=16)])
+    CVC = PasswordField('CVC', validators=[DataRequired('Please enter your 3-digit CVC'), Length(min=3, max=3)])
+    Submit = SubmitField('Checkout')

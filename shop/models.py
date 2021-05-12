@@ -7,7 +7,6 @@ class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50),nullable=False)
     description = db.Column(db.String(300), nullable=False)
-    #publication_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     price = db.Column(db.Numeric(10,2), nullable=False)
     image_file = db.Column(db.String(50), nullable=False, default='default.jpg')
 
@@ -40,7 +39,7 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-class Cart(db.Model):
+class Basket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)

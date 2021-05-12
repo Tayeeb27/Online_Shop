@@ -14,17 +14,17 @@
 <body>
 
   <div id="header">
-    <a href="{{ url_for('home') }}" class="header">Home</a>&nbsp|
-    <a href="{{ url_for('about') }}" class="header">About Us</a>&nbsp|
+    <a href="{{ url_for('home') }}" class="header">Home</a>&nbsp
+    <a href="{{ url_for('about') }}" class="header">About Us</a>&nbsp
     {% if current_user.is_authenticated %}
     Hello, {{ current_user.username }}!
-    <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>&nbsp|
+    <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>&nbsp
     {% else %}
-    Hello, Guest! &nbsp| <a href="{{ url_for('login') }}">Login&nbsp;</a>
-    or <a href="{{ url_for('register') }}">Register</a>&nbsp|
+    Hello, Guest! &nbsp <a href="{{ url_for('login') }}">Login&nbsp;</a>
+    or <a href="{{ url_for('register') }}">Register</a>&nbsp
     {% endif %}
-    <a href="{{ url_for('cart_display') }}" class="header">Cart ({{total_quantity}} items) </a>&nbsp|
-    <a href="{{ url_for('wishlist_display') }}" class="header">My Wishlist ({{total_quantity_wishlist}} items)</a>&nbsp|
+    <a href="{{ url_for('basket_display') }}" class="header">Basket ({{total_quantity}}) </a>&nbsp
+    <a href="{{ url_for('wishlist_display') }}" class="header">My Wishlist ({{total_quantity_wishlist}})</a>&nbsp
 
   </div>
 

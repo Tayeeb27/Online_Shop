@@ -3,10 +3,10 @@
 	<img src = "{{ url_for('static', filename='img/' + item.image_file) }}" width="300" height="300">
 
 
-	<p>"{{ item.title }}" </p>
+	<p>{{ item.title }} </p>
 	<p>Price: {{ item.price }}</p>
 	<p>Description: {{item.description}}</p>
-	<a class="" href="/add_to_cart/{{item.id}}">Add to Cart</a>&nbsp|
-	<a class="" href="/add_to_wishlist/{{item.id}}">Add to Wishlist</a>&nbsp|
+	<a class="" href="/add_to_basket/{{item.id}}">Add to Basket</a>&nbsp
+	<a class="" href="/add_to_wishlist/{{item.id}}">Add to Wishlist</a>&nbsp
 
 {% endblock content %}

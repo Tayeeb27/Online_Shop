@@ -1,4 +1,36 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>This is About Us page</h1>
+<h1> StationaryFix </h1>
+<div class="search-container">
+    <form method="POST">
+      <input type="text" placeholder="Search..." name="home">
+      <button type="submit">Search</button>
+    </form>
+</div>
+
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort By
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="Asc">Low-High</a>&nbsp|
+    <a class="dropdown-item" href="Desc">High-Low</a>&nbsp|
+</div>
+
+  {% for item in items %}
+<div style="float:left; margin:40px; width: 295px; padding: 40px;">
+  <a href="{{ url_for('item', item_id=item.id) }}">
+  	<img src = "{{ url_for('static', filename='img/' + item.image_file) }}" width="300" height="300"></a>
+    <!--<a href="{{ url_for('item', item_id=item.id) }}">-->
+      <p>"{{ item.title }}"</p></a>
+      <p>Price (£): {{ item.price }}</p>
+      <p>Description: {{item.description}}</p>
+    <a class="" href="/add_to_basket/{{item.id}}">Add to Basket</a>&nbsp<br/>
+
+    <a class="" href="/add_to_wishlist/{{item.id}}">Add to Wishlist</a>&nbsp
+
+</div>
+
+  {% endfor %}
+</div>
 {% endblock content %}

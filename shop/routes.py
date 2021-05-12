@@ -5,6 +5,7 @@ from shop.models import Item, User
 from shop.forms import RegistrationForm, LoginForm, SearchForm, CheckoutForm
 from flask_login import login_user, current_user, logout_user, login_required
 
+
 @app.route("/", methods= ['GET', 'POST'])
 
 @app.route("/home", methods= ['GET', 'POST'])
@@ -23,18 +24,18 @@ def about():
 	return render_template('about.html', title='About')
 
 
-@app.route("/orderasc")
-def orderasc():
+@app.route("/Asc")
+def Asc():
 	return render_template('home.html', items = Item.query.order_by("price"), title='Home')
 
-@app.route("/orderdesc")
-def orderdesc():
+@app.route("/Desc")
+def Desc():
 	return render_template('home.html', items = Item.query.order_by("price")[::-1], title='Home')
 
 @app.route("/item/<int:item_id>")
 def item(item_id):
 	item = Item.query.get_or_404(item_id)
-	return render_template('item.html', item=item) #title=book.title
+	return render_template('item.html', item=item)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -54,8 +55,7 @@ def register():
 def checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-    	#user = User(forename=form.forename.data,surname=form.surname.data)
-    	session["cart"] = []
+    	session["basket"] = []
     	return redirect(url_for('thankyou'))
     return render_template('checkout.html', title='Checkout', form=form)
 
@@ -82,22 +82,22 @@ def logout():
 		logout_user()
 		return redirect(url_for('home'))
 
-@app.route("/add_to_cart/<int:item_id>")
-def add_to_cart(item_id):
-	if "cart" not in session:
-		session["cart"] = []
-	session["cart"].append(item_id)
-	flash("The item is added to your shopping cart!")
-	return redirect("/cart")
+@app.route("/add_to_basket/<int:item_id>")
+def add_to_basket(item_id):
+	if "basket" not in session:
+		session["basket"] = []
+	session["basket"].append(item_id)
+	flash("The item is added to your shopping basket!")
+	return redirect("/basket")
 
-@app.route("/cart", methods=['GET', 'POST'])
-def cart_display():
-    if "cart" not in session:
-        flash('There is nothing in your cart.')
-        return render_template("cart.html", display_cart = {}, total = 0)
+@app.route("/basket", methods=['GET', 'POST'])
+def basket_display():
+    if "basket" not in session:
+        flash('There is nothing in your basket.')
+        return render_template("basket.html", display_basket = {}, total = 0)
     else:
-        items = session["cart"]
-        cart = {}
+        items = session["basket"]
+        basket = {}
 
         total_price = 0
         total_quantity = 0
@@ -105,29 +105,29 @@ def cart_display():
             item = Item.query.get_or_404(item)
 
             total_price += item.price
-            if item.id in cart:
-                cart[item.id]["quantity"] += 1
+            if item.id in basket:
+                basket[item.id]["quantity"] += 1
             else:
-                cart[item.id] = {"quantity":1, "title": item.title, "price":item.price}
-            total_quantity = sum(item['quantity'] for item in cart.values())
+                basket[item.id] = {"quantity":1, "title": item.title, "price":item.price}
+            total_quantity = sum(item['quantity'] for item in basket.values())
 
 
-        return render_template("cart.html", title='Your Shopping Cart', display_cart = cart, total = total_price, total_quantity = total_quantity)
+        return render_template("basket.html", title='Your Shopping basket', display_basket = basket, total = total_price, total_quantity = total_quantity)
 
-    return render_template('cart.html')
+    return render_template('basket.html')
 
 @app.route("/delete_item/<int:item_id>", methods=['GET', 'POST'])
 def delete_item(item_id):
-    if "cart" not in session:
-        session["cart"] = []
+    if "basket" not in session:
+        session["basket"] = []
 
-    session["cart"].remove(item_id)
+    session["basket"].remove(item_id)
 
-    flash("The item has been removed from your shopping cart!")
+    flash("The item has been removed from your shopping basket!")
 
     session.modified = True
 
-    return redirect("/cart")
+    return redirect("/basket")
 
 @app.route("/add_to_wishlist/<int:item_id>")
 def add_to_wishlist(item_id):
@@ -158,7 +158,7 @@ def wishlist_display():
                 wishlist[item.id] = {"quantity":1, "title": item.title, "price":item.price}
             total_quantity_wishlist = sum(item_id['quantity'] for item_id in wishlist.values())
 
-        return render_template("wishlist.html", title= "Your Shopping Cart", display_wishlist = wishlist, total = total_price, total_quantity_wishlist = total_quantity_wishlist)
+        return render_template("wishlist.html", title= "Your Shopping Basket", display_wishlist = wishlist, total = total_price, total_quantity_wishlist = total_quantity_wishlist)
 
 @app.route("/delete_item_wishlist/<int:item_id>", methods=['GET', 'POST'])
 def delete_item_wishlist(item_id):
